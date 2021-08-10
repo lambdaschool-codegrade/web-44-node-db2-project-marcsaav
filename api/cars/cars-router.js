@@ -8,23 +8,21 @@ const Car = require('./cars-model')
 
 router.get('/', async (req, res, next) => {
     try {
-
+        const cars = await Car.getAll()
+        res.status(200).json(cars)
     } catch(err) {
         next(err)
     }
 })
 
-router.get('/:id', checkCarId, async (req, res, next) => {
-    try {
-
-    } catch(err) {
-        next(err)
-    }
+router.get('/:id', checkCarId, (req, res, next) => {
+    res.status(200).json(req.car)
 })
 
 router.post('/', checkCarPayload, checkVinNumberUnique, checkVinNumberValid, async (req, res, next) => {
     try {
-
+        const car = await Car.create(req.body)
+        res.status(200).json(car)
     } catch(err) {
         next(err)
     }
